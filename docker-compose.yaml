@@ -6,9 +6,14 @@ services:
     container_name: jupyter
     ports:
       - "9001:8888"
+      - "8000:8000"
+      - "8265:8265"
     restart: "no"
     volumes:
       - ./notebooks:/scratchpad/notebooks
+      - ./src:/scratchpad/src
+      - ./svcs:/scratchpad/svcs
+      - ./data:/scratchpad/data
     entrypoint:
       - bash
     command:

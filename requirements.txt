@@ -1,2 +1,8 @@
 jupyterlab
 matplotlib
+transformers 
+torch 
+fastapi 
+uvicorn
+ray[serve]
+datasets
