@@ -2,7 +2,7 @@ import time
 
 import ray
 from ray import serve
-from svc import FastAPIWrapper
+from fastapi_svc import FastAPIWrapper
 
 ray.init(dashboard_host="0.0.0.0")
 serve.run(FastAPIWrapper.bind(), host="0.0.0.0")
