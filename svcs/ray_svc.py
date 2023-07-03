@@ -1,59 +1,43 @@
 import os
 import sys
-import time
 
-import requests
-from fastapi import APIRouter, FastAPI
 from ray import serve
+from starlette.requests import Request
 
+# load model
 root_folder = os.path.join(os.getcwd(), "..")
 sys.path.append(root_folder)
 from src.hfmodels.utils import *
 
-router = APIRouter()
 model_path = "/scratchpad/data/models/codegen-350M-mono"
 loaded_model, loaded_tokenizer, device = load_artefacts(
     model_path, model_class=CodeGenForCausalLM
 )
 
-# @router.post("/predict")
-# app.include_router(prediction_router.router, tags=["make predictions"])
 
-app = FastAPI()
+# 1: Define a Ray Serve deployment.
+@serve.deployment
+class LLMServe:
+    def __init__(self) -> None:
+        # All the initialization code goes here
+        pass
 
+    # def _run_prediction(self, text: str):
+    #    gen = generate_tokens(loaded_model, loaded_tokenizer, device, text)
+    #    return gen
 
-@app.post("/predict")
-def predict(pred_req):
-    gen = generate_tokens(loaded_model, loaded_tokenizer, device, pred_req)
-    return gen
-
-
-@app.get("/internal/healthcheck")
-def healthcheck():
-    return {"status": "200"}
-
-
-@app.get("/")
-def start_svc():
-    return {"Info": "Prediction Service is running"}
-
-
-# @serve.deployment(
-#     route_prefix="/predict",
-#     num_replicas=1,
-#     #ray_actor_options={"num_cpus": 1, "num_gpus": 0.5}
-# )
+    async def __call__(self, request: Request) -> str:
+        return "HELLO"
+        # # 1. Parse the request
+        # text = request.query_params["text"]
+        # # 2. Get Prediction
+        # resp = self._get_prediction(text)
+        # # 3. Return the response
+        # return resp["text"]
 
 
-@serve.deployment  # (num_replicas=1, ray_actor_options={"num_gpus": 1})
-@serve.ingress(app)
-class FastAPIWrapper:
-    pass
+# # 2: Bind the model to deployment
+# deployment = LLMServe.bind()
 
-
-# serve.run(FastAPIWrapper.bind(), host="0.0.0.0")
-
-# while True:
-#     time.sleep(5)
-#     print(serve.list_deployments())
-# # resp = requests.get("http://localhost:8000/")
+# # 3: Run the deployment
+# serve.api.run(deployment)

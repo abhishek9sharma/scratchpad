@@ -10,12 +10,12 @@ root_folder = os.path.join(os.getcwd(), "..")
 sys.path.append(root_folder)
 from src.hfmodels.utils import *
 
-router = APIRouter()
 model_path = "/scratchpad/data/models/codegen-350M-mono"
 loaded_model, loaded_tokenizer, device = load_artefacts(
     model_path, model_class=CodeGenForCausalLM
 )
 
+# router = APIRouter()
 # @router.post("/predict")
 # app.include_router(prediction_router.router, tags=["make predictions"])
 
