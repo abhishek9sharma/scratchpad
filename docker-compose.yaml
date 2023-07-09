@@ -9,12 +9,14 @@ services:
       - "8000:8000"
       - "8265:8265"
       - "8090:8090"
+      - "8100:8100"
     restart: "no"
     volumes:
       - ./notebooks:/scratchpad/notebooks
       - ./src:/scratchpad/src
       - ./svcs:/scratchpad/svcs
       - ./data:/scratchpad/data
+      - ./codeserver_extensions:/scratchpad/codeserver_extensions
     # entrypoint:
     #  - bash
     # command:

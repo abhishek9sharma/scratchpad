@@ -1,4 +1,4 @@
-# scratch
+# scratchpad
 Scratchpad for studying and exploration
 
 ### Steps to run code/notebooks used in project. 

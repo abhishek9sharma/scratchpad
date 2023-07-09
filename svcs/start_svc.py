@@ -2,13 +2,15 @@ import os
 import time
 
 import ray
-from fastapi_svc import FastAPIWrapper
+#from fastapi_svc import FastAPIWrapper
 from ray import serve
-from ray_svc import LLMServe
+#from ray_svc import LLMServe
+from ray_streaming_svc import StreamingResponder
 
 ray.init(dashboard_host="0.0.0.0")
+#serve.run(LLMServe.bind(), host="0.0.0.0")
+serve.run(StreamingResponder.bind(), host="0.0.0.0")
 
-serve.run(LLMServe.bind(), host="0.0.0.0")
 # LMServe.deploy()
 # serve.run(FastAPIWrapper.bind(), host="0.0.0.0")
 # FastAPIWrapper.deploy()
