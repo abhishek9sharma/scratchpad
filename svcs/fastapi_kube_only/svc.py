@@ -8,10 +8,9 @@ from fastapi import APIRouter, FastAPI
 app = FastAPI()
 
 
-@app.post("/predict")
-def predict(pred_req):
-    pred_req["response"] = "responded from server"
-    return pred_req
+@app.post("/serve")
+def serve(req):
+    return req + " responded from server"
 
 
 @app.get("/internal/healthcheck")
@@ -21,6 +20,6 @@ def healthcheck():
 
 @app.get("/")
 def start_svc():
-    return {"Info": "Prediction Service is running"}
+    return {"Info": "Service is running"}
 
 
