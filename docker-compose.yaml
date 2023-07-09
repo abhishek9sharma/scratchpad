@@ -4,6 +4,7 @@ services:
   scratchpad:
     build: .
     container_name: scratchpad
+    #privileged: true
     ports:
       - "9001:8888"
       - "8000:8000"

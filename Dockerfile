@@ -5,6 +5,8 @@ EXPOSE 8100
 EXPOSE 8265
 EXPOSE 8080
 RUN apt-get update -y && apt-get install wget git -y
+#RUN apt-get update && apt install -y --no-install-recommends docker.io -y
+#RUN apt-get install podman -y
 RUN mkdir scratchpad
 COPY ./ /scratchpad 
 WORKDIR /scratchpad
