@@ -1,6 +1,8 @@
 #minikube addons enable ingress 
 #minikube  dashboard --url
 #minikube tunnel
+minikube start
+#echo "URL:: " + $(minikube  dashboard --url)
 
 #build images
 eval $(minikube docker-env)
@@ -13,7 +15,7 @@ docker build --tag kubefastapiapp .
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 #kubectl apply -f ingress.yaml
-minikube service kubefastapiapp --url|true
+#minikube service kubefastapiapp --url|true
 
 #LINKS
 #https://richard.to/programming/hello-world-fast-api-kubenetes.html
