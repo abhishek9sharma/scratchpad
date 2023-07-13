@@ -6,3 +6,4 @@ fastapi
 uvicorn
 ray[serve]
 datasets
+#vllm

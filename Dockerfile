@@ -1,11 +1,12 @@
 FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel
+#FROM anibali/pytorch:2.0.0-cuda11.8
 EXPOSE 9001
 EXPOSE 8000
 EXPOSE 8100
 EXPOSE 8265
 EXPOSE 8080
 RUN apt-get update -y && apt-get install wget git -y
-#RUN apt-get update && apt install -y --no-install-recommends docker.io -y
+RUN apt install -y --no-install-recommends docker.io -y
 #RUN apt-get install podman -y
 RUN mkdir scratchpad
 COPY ./ /scratchpad 
@@ -30,7 +31,7 @@ RUN \
 #install HF as above does not work
 RUN /usr/bin/code-server --install-extension codeserver_extensions/ HuggingFace.huggingface-vscode-0.0.30.vsix
 
-RUN conda install mamba -c conda-forge
+#RUN conda install mamba -c conda-forge
 #RUN conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
 # RUN conda create -n nginx_env python=3.9 -y
 # RUN conda init bash
