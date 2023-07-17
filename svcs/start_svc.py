@@ -6,10 +6,12 @@ import ray
 from ray import serve
 #from ray_svc import LLMServe
 from ray_streaming_svc import StreamingResponder
+from tgi_ray import TextGenerationInferenceDeployment
 
 ray.init(dashboard_host="0.0.0.0")
 #serve.run(LLMServe.bind(), host="0.0.0.0")
 serve.run(StreamingResponder.bind(), host="0.0.0.0")
+#serve.run(TextGenerationInferenceDeployment.bind(),host="0.0.0.0")
 
 # LMServe.deploy()
 # serve.run(FastAPIWrapper.bind(), host="0.0.0.0")
