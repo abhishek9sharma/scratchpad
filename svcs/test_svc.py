@@ -1,6 +1,6 @@
 import requests, time
-# #r = requests.get("http://localhost:8000?max=10", stream=True)
-data = {"prompt":"def add(a,b):","do_sample":False,"max_new_tokens":100, "return_full_text":False} 
+#r = requests.get("http://localhost:8000?max=10", stream=True)
+data = {"prompt":"def add(a,b,c):","do_sample":False,"max_new_tokens":100, "return_full_text":False, "watermark":False} 
 r =requests.post("http://127.0.0.1:8000/generate_stream", json=data, stream=True)
 start = time.time()
 r.raise_for_status()

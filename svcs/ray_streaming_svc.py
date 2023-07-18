@@ -42,13 +42,14 @@ class StreamingResponder:
             yield str(i)
             time.sleep(0.1)
 
-    async def  __call__(self, request: GenerateStream) -> StreamingResponse:
+    async def  __call__(self, request: Request) -> StreamingResponse:
         #max = request.query_params.get("max", "25")
-        #gen = self.generate_numbers(int(max))
-        payload = await request.json()
-        #rq = {"prompt":"def add(a,b):","do_sample":False,"max_new_tokens":100, "return_full_text":False, "watermark":False} 
+        #gen = self.generate_numbers(25)
+        payload1 = await request.json()
+        
+        payload = {"prompt":"def add(a,b):","do_sample":False,"max_new_tokens":100, "return_full_text":False, "watermark":False} 
         client = Client("http://127.0.0.1:8080")
-        gen = generate_stream_text(client, payload)
+        gen = generate_stream_text(client, **payload1)
         return  StreamingResponse(gen, status_code=200, media_type="text/plain")
 
 
