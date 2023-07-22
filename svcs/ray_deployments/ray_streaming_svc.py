@@ -2,10 +2,10 @@ import time
 from typing import Generator
 
 import requests
-from starlette.responses import StreamingResponse
-from starlette.requests import Request
-
+from pydantic import BaseModel
 from ray import serve
+from starlette.requests import Request
+from starlette.responses import StreamingResponse
 
 
 @serve.deployment
@@ -15,10 +15,8 @@ class StreamingResponder:
             yield str(i)
             time.sleep(0.1)
 
-    def __call__(self, request: Request) -> StreamingResponse:
-        max = request.query_params.get("max", "25")
-        gen = self.generate_numbers(int(max))
+    async def __call__(self, request: Request) -> StreamingResponse:
+        data = await request.json()
+        max = data["max_new_tokens"]
+        gen = self.generate_numbers(max)
         return StreamingResponse(gen, status_code=200, media_type="text/plain")
-
-
-#serve.run(StreamingResponder.bind())
