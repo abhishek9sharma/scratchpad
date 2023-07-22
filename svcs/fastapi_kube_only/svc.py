@@ -1,9 +1,9 @@
 import os
 import sys
 import time
+
 import requests
 from fastapi import APIRouter, FastAPI
-
 
 app = FastAPI()
 
@@ -21,5 +21,3 @@ def healthcheck():
 @app.get("/")
 def start_svc():
     return {"Info": "Service is running"}
-
-

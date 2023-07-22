@@ -3,6 +3,7 @@ version: '3.9'
 services:
   scratchpad:
     build: .
+    user: root
     container_name: scratchpad
     #privileged: true
     ports:
