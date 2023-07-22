@@ -10,7 +10,7 @@ EXPOSE 8265
 EXPOSE 8080
 EXPOSE 6006
 RUN apt-get update -y
-RUN apt-get install wget git curl libssl-dev -y
+RUN apt-get install wget git curl libssl-dev zip unzip -y
 #RUN apt install -y --no-install-recommends docker.io -y
 #RUN apt-get install podman -y
 RUN mkdir scratchpad
@@ -21,13 +21,20 @@ RUN pip install  -r requirements.txt
 
 # # #install tgi 
 
-# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-# RUN /bin/bash -c "source $HOME/.cargo/env"
-# RUN export PATH="$HOME/.cargo/bin:$PATH"
-# RUN conda create -n text-generation-inference python=3.9  -y
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+RUN /bin/bash -c "source $HOME/.cargo/env"
+RUN export PATH="$HOME/.cargo/bin:$PATH"
+RUN conda create -n text-generation-inference python=3.9  -y
+RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip
+# &&  \
+#     unzip -o protoc-21.12-linux-x86_64.zip -d /usr/local bin/protoc && \
+#     unzip -o protoc-21.12-linux-x86_64.zip -d /usr/local 'include/*' &&\
+#     rm -f protoc-21.12-linux-x86_64.zip &&
+
 # SHELL ["conda", "run", "-n", "text-generation-inference", "/bin/bash", "-c"]
-# RUN git clone https://github.com/huggingface/text-generation-inference
-# #RUN cd text-generation-inference && BUILD_EXTENSIONS=True make install
+# RUN git clone https://github.com/huggingface/text-generation-inference &&\
+#     cd text-generation-inference \
+#     && BUILD_EXTENSIONS=True make install
 
 
 #install code server
