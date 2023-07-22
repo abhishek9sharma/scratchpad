@@ -1,5 +1,6 @@
 #FROM rust
 FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel
+#FROM pytorch/pytorch:latest
 #FROM  ghcr.io/huggingface/text-generation-inference:0.9
 #FROM anibali/pytorch:2.0.0-cuda11.8
 EXPOSE 9001
@@ -7,6 +8,7 @@ EXPOSE 8000
 EXPOSE 8100
 EXPOSE 8265
 EXPOSE 8080
+EXPOSE 6006
 RUN apt-get update -y
 RUN apt-get install wget git curl libssl-dev -y
 #RUN apt install -y --no-install-recommends docker.io -y
@@ -17,15 +19,15 @@ WORKDIR /scratchpad
 RUN pip install --upgrade pip
 RUN pip install  -r requirements.txt
 
-# #install tgi 
+# # #install tgi 
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-RUN /bin/bash -c "source $HOME/.cargo/env"
-RUN export PATH="$HOME/.cargo/bin:$PATH"
-RUN conda create -n text-generation-inference python=3.9  -y
-SHELL ["conda", "run", "-n", "text-generation-inference", "/bin/bash", "-c"]
-RUN git clone https://github.com/huggingface/text-generation-inference
-#RUN cd text-generation-inference && BUILD_EXTENSIONS=True make install
+# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+# RUN /bin/bash -c "source $HOME/.cargo/env"
+# RUN export PATH="$HOME/.cargo/bin:$PATH"
+# RUN conda create -n text-generation-inference python=3.9  -y
+# SHELL ["conda", "run", "-n", "text-generation-inference", "/bin/bash", "-c"]
+# RUN git clone https://github.com/huggingface/text-generation-inference
+# #RUN cd text-generation-inference && BUILD_EXTENSIONS=True make install
 
 
 #install code server

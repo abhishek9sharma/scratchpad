@@ -7,9 +7,14 @@ def load_artefacts(model_path, model_class=AutoModel):
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     model = model_class.from_pretrained(model_path)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("###***", device)
     model.to(device)
     # model.eval()
     return model, tokenizer, device
+
+
+def get_device():
+    return torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def generate_tokens(model, tokenizer, device, input_text):

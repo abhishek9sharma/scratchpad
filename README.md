@@ -13,6 +13,9 @@ Scratchpad for studying and exploration
 
     - To bring down a running _scratchpad_ container run below command 
         - `you@yourmachine:~/somefolder/scratchpad$ make down`
+  
+    - To fiddle with ray deployments run below command. (Note this needs to be run from inside the containers)
+        - `root@a0d72dc9f0e4:/scratchpad# python svcs/start_svc.py LLMServe`
         
     - Run a fastapi service on [minikube](https://minikube.sigs.k8s.io/docs/start/).Note that its independent from scratchpad container
         - Install it from [here](https://minikube.sigs.k8s.io/docs/start/)

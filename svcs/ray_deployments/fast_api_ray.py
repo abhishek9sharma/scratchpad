@@ -5,9 +5,11 @@ import time
 import requests
 from fastapi import APIRouter, FastAPI
 from ray import serve
-
-root_folder = os.path.join(os.getcwd(), "..")
+# load model
+root_folder = "/scratchpad"
 sys.path.append(root_folder)
+print(sys.path)
+
 from src.hfmodels.utils import *
 
 model_path = "/scratchpad/data/models/codegen-350M-mono"
@@ -49,11 +51,3 @@ def start_svc():
 @serve.ingress(app)
 class FastAPIWrapper:
     pass
-
-
-# serve.run(FastAPIWrapper.bind(), host="0.0.0.0")
-
-# while True:
-#     time.sleep(5)
-#     print(serve.list_deployments())
-# # resp = requests.get("http://localhost:8000/")
