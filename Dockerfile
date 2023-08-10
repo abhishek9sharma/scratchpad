@@ -17,15 +17,15 @@ RUN mkdir scratchpad
 COPY ./ /scratchpad 
 WORKDIR /scratchpad
 RUN pip install --upgrade pip
-RUN pip install  -r requirements.txt
+#RUN pip install  -r requirements.txt
 
-# # #install tgi 
+# # # #install tgi 
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-RUN /bin/bash -c "source $HOME/.cargo/env"
-RUN export PATH="$HOME/.cargo/bin:$PATH"
-RUN conda create -n text-generation-inference python=3.9  -y
-RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip
+# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+# RUN /bin/bash -c "source $HOME/.cargo/env"
+# RUN export PATH="$HOME/.cargo/bin:$PATH"
+# RUN conda create -n text-generation-inference python=3.9  -y
+# RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip
 # &&  \
 #     unzip -o protoc-21.12-linux-x86_64.zip -d /usr/local bin/protoc && \
 #     unzip -o protoc-21.12-linux-x86_64.zip -d /usr/local 'include/*' &&\
@@ -43,6 +43,8 @@ RUN dpkg -i code-server_4.14.1_amd64.deb
 RUN printf "#!/bin/bash\n/usr/bin/code-server --auth=none --bind-addr=0.0.0.0:8090 --disable-telemetry" > /usr/local/bin/codeserver
 RUN chmod +x /usr/local/bin/codeserver
 SHELL ["/bin/bash", "-c"]
+ENV  XDG_DATA_HOME='/codeserver_installed_extensions'
+RUN mkdir /codeserver_installed_extensions && chmod +x /codeserver_installed_extensions
 RUN \
     extensions=(\
         njpwerner.autodocstring@0.6.1 \
@@ -53,7 +55,7 @@ RUN \
 
 #install HF as above does not work
 RUN /usr/bin/code-server --install-extension codeserver_extensions/ HuggingFace.huggingface-vscode-0.0.30.vsix
-
+RUN ls -lah /codeserver_installed_extensions
 #RUN conda install mamba -c conda-forge
 #RUN conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
 # RUN conda create -n nginx_env python=3.9 -y
