@@ -1,6 +1,6 @@
-FROM nvidia/cuda:11.8.0-base-ubuntu20.04
+FROM nvidia/cuda:11.8.0-devel-ubuntu20.04
 ENV PYTHONUNBUFFERED=1 
-
+ENV  DEBIAN_FRONTEND=noninteractive
 EXPOSE 9001
 EXPOSE 8000
 EXPOSE 8100
@@ -9,13 +9,15 @@ EXPOSE 8080
 EXPOSE 6006
 
 # SYSTEM
-RUN apt-get update --yes --quiet && DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --no-install-recommends \
-    software-properties-common \
-    build-essential apt-utils \
-    wget curl libssl-dev zip unzip vim git ca-certificates kmod libarchive13\
-    #nvidia-driver-525 \
- && rm -rf /var/lib/apt/lists/*
-#RUN apt-get install wget git curl libssl-dev zip unzip -y
+# RUN apt-get update --yes --quiet && DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --no-install-recommends \
+#     software-properties-common \
+#     build-essential apt-utils \
+#     wget curl libssl-dev zip unzip vim git ca-certificates kmod libarchive13\
+#     #nvidia-driver-525 \
+#  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y
+RUN apt-get install wget curl libssl-dev zip unzip vim git ca-certificates \
+    kmod libarchive13 libssl-dev gcc build-essential pkg-config -y
 #RUN apt install -y --no-install-recommends docker.io -y
 #RUN apt-get install podman -y
 
@@ -82,22 +84,24 @@ RUN conda install -n base --override-channels -c conda-forge mamba 'python_abi=*
 #RUN pip install --upgrade pip
 #RUN pip install  -r requirements.txt
 
-# # # #install tgi 
-
-# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-# RUN /bin/bash -c "source $HOME/.cargo/env"
-# RUN export PATH="$HOME/.cargo/bin:$PATH"
-# RUN conda create -n text-generation-inference python=3.9  -y
-# RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip
-# &&  \
+#install tgi
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+RUN /bin/bash -c "source $HOME/.cargo/env"
+RUN export PATH="$HOME/.cargo/bin:$PATH"
+RUN conda create -n text-generation-inference python=3.9  -y
+# RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip &&  \
 #     unzip -o protoc-21.12-linux-x86_64.zip -d /usr/local bin/protoc && \
 #     unzip -o protoc-21.12-linux-x86_64.zip -d /usr/local 'include/*' &&\
 #     rm -f protoc-21.12-linux-x86_64.zip &&
-
-# SHELL ["conda", "run", "-n", "text-generation-inference", "/bin/bash", "-c"]
+RUN PROTOC_ZIP=protoc-21.12-linux-x86_64.zip &&  \
+    curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/$PROTOC_ZIP &&  \
+    unzip -o $PROTOC_ZIP -d /usr/local bin/protoc &&  \
+    unzip -o $PROTOC_ZIP -d /usr/local 'include/*' &&  \
+    rm -f $PROTOC_ZIP
+#SHELL ["conda", "run", "-n", "text-generation-inference", "/bin/bash", "-c"]
 # RUN git clone https://github.com/huggingface/text-generation-inference &&\
 #     cd text-generation-inference \
-#     && BUILD_EXTENSIONS=True make install
+#     && BUILD_EXTENSIONS=True make install| true
 
 
 
