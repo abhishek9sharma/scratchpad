@@ -89,10 +89,6 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 RUN /bin/bash -c "source $HOME/.cargo/env"
 RUN export PATH="$HOME/.cargo/bin:$PATH"
 RUN conda create -n text-generation-inference python=3.9  -y
-# RUN curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip &&  \
-#     unzip -o protoc-21.12-linux-x86_64.zip -d /usr/local bin/protoc && \
-#     unzip -o protoc-21.12-linux-x86_64.zip -d /usr/local 'include/*' &&\
-#     rm -f protoc-21.12-linux-x86_64.zip &&
 RUN PROTOC_ZIP=protoc-21.12-linux-x86_64.zip &&  \
     curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/$PROTOC_ZIP &&  \
     unzip -o $PROTOC_ZIP -d /usr/local bin/protoc &&  \
