@@ -19,6 +19,9 @@ services:
       - ./svcs:/scratchpad/svcs
       - ./data:/scratchpad/data
       - ./codeserver_extensions:/scratchpad/codeserver_extensions
+      # - ./data/conda_envs/envs:/opt/conda/envs
+      # - ./data/conda_envs/pkgs:/opt/conda/pkgs
+
     # entrypoint:
     #  - bash
     # command:
