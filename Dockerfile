@@ -84,25 +84,23 @@ RUN conda install -n base --override-channels -c conda-forge mamba 'python_abi=*
 #RUN pip install --upgrade pip
 #RUN pip install  -r requirements.txt
 
-#install tgi
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-RUN /bin/bash -c "source $HOME/.cargo/env"
-RUN export PATH="$HOME/.cargo/bin:$PATH"
-RUN conda create -n text-generation-inference python=3.9  -y
-RUN PROTOC_ZIP=protoc-21.12-linux-x86_64.zip &&  \
-    curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/$PROTOC_ZIP &&  \
-    unzip -o $PROTOC_ZIP -d /usr/local bin/protoc &&  \
-    unzip -o $PROTOC_ZIP -d /usr/local 'include/*' &&  \
-    rm -f $PROTOC_ZIP
-#SHELL ["conda", "run", "-n", "text-generation-inference", "/bin/bash", "-c"]
+# #install tgi
+# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+# RUN /bin/bash -c "source $HOME/.cargo/env"
+# RUN export PATH="$HOME/.cargo/bin:$PATH"
+# RUN conda create -n text-generation-inference python=3.9  -y
+# RUN PROTOC_ZIP=protoc-21.12-linux-x86_64.zip &&  \
+#     curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/$PROTOC_ZIP &&  \
+#     unzip -o $PROTOC_ZIP -d /usr/local bin/protoc &&  \
+#     unzip -o $PROTOC_ZIP -d /usr/local 'include/*' &&  \
+#     rm -f $PROTOC_ZIP
+# RUN conda config --prepend envs_dirs /scratchpad/data/conda_envs
+# SHELL ["conda", "run", "-n", "text-generation-inference", "/bin/bash", "-c"]
 # RUN git clone https://github.com/huggingface/text-generation-inference &&\
 #     cd text-generation-inference \
-#     && BUILD_EXTENSIONS=True make install| true
+#     && BUILD_EXTENSIONS=True make install|true
 
-
-
-#RUN conda install mamba -c conda-forge
-#RUN conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
+#OLD
 # RUN conda create -n nginx_env python=3.9 -y
 # RUN conda init bash
 # #RUN echo "conda activate nginx_env" >> ~/.bashrc

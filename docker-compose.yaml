@@ -19,6 +19,7 @@ services:
       - ./svcs:/scratchpad/svcs
       - ./data:/scratchpad/data
       - ./codeserver_extensions:/scratchpad/codeserver_extensions
+      - ./installers:/scratchpad/installers
       # - ./data/conda_envs/envs:/opt/conda/envs
       # - ./data/conda_envs/pkgs:/opt/conda/pkgs
 

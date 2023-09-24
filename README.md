@@ -16,12 +16,28 @@ Scratchpad for studying and exploration
   
     - To fiddle with ray deployments run below command. (Note this needs to be run from inside the containers)
         - `root@a0d72dc9f0e4:/scratchpad# python svcs/start_svc.py LLMServe`
+
+- Once the container launches you can create various environments using below commands
+    - Install TGI environment once container starts 
+        - Navigate to location [http://localhost:8090/?folder=/scratchpad](http://localhost:8090/?folder=/scratchpad)
+        - Open Teminal and run below command
+            - `root@22e5c9a5f35d:/scratchpad#chmod +x ./installers/install_tgi.sh && source ./installers/install_tgi`
         
-    - Run a fastapi service on [minikube](https://minikube.sigs.k8s.io/docs/start/).Note that its independent from scratchpad container
-        - Install it from [here](https://minikube.sigs.k8s.io/docs/start/)
-        - Navigate to folder `you@yourmachine:~/somefolder/scratchpad/svcs/fastapi_kube_only/` and run below commands (run below different terminals and in sequence)
-            - to deploy app : `~./deploykube.sh`
-            - to see minkube dashboard : `~./$minikube  dashboard --url`
-            - to see service : `~./$minikube service kubefastapiapp --url`
-           
+
+
+    - Install ray environment once container starts
+        - Navigate to folder [http://localhost:8090/?folder=/scratchpad](http://localhost:8090/?folder=/scratchpad)
+        - Open Teminal and run below command
+            - `root@22e5c9a5f35d:/scratchpad#chmod +x ./installers/create_ray_env.sh && source ./installers/create_ray_env.sh`
+        
+
+
+### MINIKUBE (remove later)
+- Run a fastapi service on [minikube](https://minikube.sigs.k8s.io/docs/start/).Note that its independent from scratchpad container
+    - Install it from [here](https://minikube.sigs.k8s.io/docs/start/)
+    - Navigate to folder `you@yourmachine:~/somefolder/scratchpad/svcs/fastapi_kube_only/` and run below commands (run below different terminals and in sequence)
+        - to deploy app : `~./deploykube.sh`
+        - to see minkube dashboard : `~./$minikube  dashboard --url`
+        - to see service : `~./$minikube service kubefastapiapp --url`
+        
             
