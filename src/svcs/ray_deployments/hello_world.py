@@ -18,14 +18,14 @@ class MyModelDeployment:
         return {"result": self._msg}
 
 
-app = MyModelDeployment.bind(msg="Hello world!")
-serve.run(app, host="0.0.0.0")
-#print(requests.get("http://127.0.0.1:8000/").json())
+# app = MyModelDeployment.bind(msg="Hello world!")
+# serve.run(app, host="0.0.0.0")
+# #print(requests.get("http://127.0.0.1:8000/").json())
 
-import time
-while True:
-    time.sleep(5)
-    print(serve.list_deployments())
+# import time
+# while True:
+#     time.sleep(5)
+#     print(serve.list_deployments())
 
 # # # # 3: Query the application and print the result.
 
