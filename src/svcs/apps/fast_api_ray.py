@@ -1,5 +1,4 @@
 import sys
-import time
 
 import ray
 import requests
@@ -21,11 +20,12 @@ class PredReq(BaseModel):
     prompt: str
 
 
+# app = FastAPI(root_path="/someapp")
 app = FastAPI()
 
 
-# , ray_actor_options={"num_cpus": 1, "num_gpus": 1})
-@serve.deployment(num_replicas=1)
+# (num_replicas=1, ray_actor_options={"num_cpus": 1, "num_gpus": 0.5})
+@serve.deployment
 @serve.ingress(app)
 class LLMServeFastAPI:
     def __init__(self) -> None:
@@ -41,13 +41,6 @@ class LLMServeFastAPI:
         gen = generate_tokens(self.model, self.tokenizer, self.device, text)
         return gen
 
-    # async def __call__(self, request: Request) -> str:
-    #     input = await request.json()
-    #     # return str(self.device)
-    #     resp = self._get_prediction(input["prompt"])
-    #     resp["device"] = str(self.device)
-    #     return resp
-
     @app.post("/predict")
     def predict(self, request: PredReq):
         # input =  request.json()
@@ -57,9 +50,5 @@ class LLMServeFastAPI:
         return {"resp": resp}
 
 
-# fastapp = MyFastAPIDeployment.bind()
-serve.run(LLMServeFastAPI.bind(), route_prefix="/LLMFastAPI", port=8000, host="0.0.0.0")
-
-while True:
-    time.sleep(10)
-    print(serve.status())
+# fapp = LLMServeFastAPI.bind()
+# serve.run(LLMServeFastAPI.bind(), route_prefix="/LLMFastAPI",port=8000, host="0.0.0.0")

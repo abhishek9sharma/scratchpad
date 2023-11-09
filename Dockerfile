@@ -63,7 +63,7 @@ RUN ls -lah /codeserver_installed_extensions
 
 #Miniconda install
 #ENV CONDA_DIR /opt/conda
-RUN curl -k https://repo.anaconda.com/miniconda/Miniconda3-py39_23.5.2-0-Linux-x86_64.sh --output miniconda.sh && \ 
+RUN curl -k https://repo.anaconda.com/miniconda/Miniconda3-py39_22.11.1-1-Linux-x86_64.sh --output miniconda.sh && \ 
     ls -lah  && \
     chmod a+x  miniconda.sh  && \ 
     mkdir -p /opt  && \ 

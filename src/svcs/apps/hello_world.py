@@ -1,10 +1,11 @@
-import ray
-ray.init(dashboard_host="0.0.0.0")
-import requests
-from starlette.requests import Request
 from typing import Dict
 
+import ray
+import requests
 from ray import serve
+from starlette.requests import Request
+
+ray.init(dashboard_host="0.0.0.0")
 
 
 # 1: Define a Ray Serve application.

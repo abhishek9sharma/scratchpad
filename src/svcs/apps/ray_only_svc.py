@@ -5,12 +5,13 @@ import torch
 from ray import serve
 from starlette.requests import Request
 
+from src.core.hfmodels.utils import (CodeGenForCausalLM, generate_tokens,
+                                     get_device, load_artefacts)
+
 # load model
 root_folder = "/scratchpad"
 sys.path.append(root_folder)
 print(sys.path)
-from src.hfmodels.utils import (CodeGenForCausalLM, generate_tokens,
-                                get_device, load_artefacts)
 
 # root_folder = os.path.join( "..","..",os.getcwd())
 # print(root_folder)
@@ -19,7 +20,8 @@ from src.hfmodels.utils import (CodeGenForCausalLM, generate_tokens,
 
 
 # 1: Define a Ray Serve deployment.
-@serve.deployment  # (num_replicas=1, ray_actor_options={"num_cpus": 4,"num_gpus": 1})
+# (num_replicas=1, ray_actor_options={"num_cpus": 4,"num_gpus": 1})
+@serve.deployment
 class LLMServe:
     def __init__(self) -> None:
         # pass
