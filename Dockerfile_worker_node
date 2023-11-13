@@ -1,3 +1,25 @@
-FROM python:3.9.18-bullseye
-RUN python -m pip install ray[core]
+FROM nvidia/cuda:11.8.0-devel-ubuntu20.04
+ENV PYTHONUNBUFFERED=1 
+ENV  DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -y && \
+    apt-get install wget curl -y
+## Miniconda install
+#ENV CONDA_DIR /opt/conda
+RUN curl -k https://repo.anaconda.com/miniconda/Miniconda3-py39_22.11.1-1-Linux-x86_64.sh --output miniconda.sh && \ 
+    ls -lah  && \
+    chmod a+x  miniconda.sh  && \ 
+    mkdir -p /opt  && \ 
+    /bin/bash miniconda.sh -b -p /opt/conda && \ 
+    rm -f miniconda.sh && \
+    export PATH=/opt/conda/bin:$PATH && \ 
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo "conda activate base" >> ~/.bashrc && \
+    /opt/conda/bin/conda clean -afy && \
+    #conda update --yes conda && \
+    conda init
+#RUN conda update conda
+ENV PATH /opt/conda/bin:$PATH
+RUN conda --version && \
+    conda install mamba -c conda-forge && \
+    conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
 ENTRYPOINT ["tail", "-f", "/dev/null"]
