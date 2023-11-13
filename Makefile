@@ -17,9 +17,14 @@ format:
 	@echo "Formatting Python code..."
 	pip3 install black
 	pip3 install isort
-	@black $(PYTHON_FILES)
-	@isort $(PYTHON_FILES)
+	black src
+	isort src
+#   black .  && autopep8 --in-place --recursive . && flake8 src tests"
+
+#	#@black $(PYTHON_FILES)
+#	@isort $(PYTHON_FILES)
 	@echo "Done!"
+
 
 # test:
 # 	docker-compose run --rm app pytest -v
@@ -47,4 +52,6 @@ clean:
 	@ find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 	@ rm -rf *.pyc build dist tests/reports docs/build .pytest_cache .tox .coverage html/
 
+
+	
 # .PHONY: format test build up down run-dev
