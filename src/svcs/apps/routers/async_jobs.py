@@ -1,15 +1,16 @@
 # https://www.phind.com/search?cache=ahmhuhq8qa85ro1n2nscb9cq
 
 import asyncio
+import time
 from http import HTTPStatus
 from typing import Dict
 from uuid import UUID, uuid4
 
+import ray
 import uvicorn
 from fastapi import APIRouter, BackgroundTasks, FastAPI
 from pydantic import BaseModel, Field
-import ray
-import time
+
 
 class Job(BaseModel):
     uid: UUID = Field(default_factory=uuid4)
@@ -24,7 +25,6 @@ router = APIRouter()
 jobs: Dict[UUID, Job] = {}  # Dict as job storage
 
 
-@ray.remote
 async def long_task(queue: asyncio.Queue, param: int):
     for i in range(1, param):  # do work and return our progress
         await asyncio.sleep(10)
@@ -40,6 +40,7 @@ async def start_new_task(uid: UUID, param: int) -> None:
         jobs[uid].progress = progress
 
     jobs[uid].status = "complete"
+
 
 # @ray.remote
 # def some_task():

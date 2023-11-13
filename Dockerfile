@@ -9,46 +9,36 @@ EXPOSE 8080
 EXPOSE 6006
 
 # SYSTEM
+RUN apt-get update -y && \
+    apt-get install wget curl libssl-dev zip unzip vim git ca-certificates \
+    kmod libarchive13 libssl-dev gcc build-essential pkg-config -y
+
+
 # RUN apt-get update --yes --quiet && DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --no-install-recommends \
 #     software-properties-common \
 #     build-essential apt-utils \
 #     wget curl libssl-dev zip unzip vim git ca-certificates kmod libarchive13\
 #     #nvidia-driver-525 \
 #  && rm -rf /var/lib/apt/lists/*
-RUN apt-get update -y
-RUN apt-get install wget curl libssl-dev zip unzip vim git ca-certificates \
-    kmod libarchive13 libssl-dev gcc build-essential pkg-config -y
 #RUN apt install -y --no-install-recommends docker.io -y
 #RUN apt-get install podman -y
-
-# PYTHON 3.9
-# RUN add-apt-repository --yes ppa:deadsnakes/ppa && apt-get update --yes --quiet
-# RUN DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --no-install-recommends \
-#     python3.9\
-#     python3.9-dev \
-#     python3.9-distutils \
-#     python3.9-lib2to3 \
-#     python3.9-gdbm \
-#     python3.9-tk \
-#     pip
-# RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 999 \
-#     && update-alternatives --config python3 && ln -s /usr/bin/python3 /usr/bin/python
-# RUN pip install --upgrade pip
-
 
 RUN mkdir scratchpad
 COPY ./ /scratchpad 
 WORKDIR /scratchpad
 
-#install code server
-RUN wget https://github.com/coder/code-server/releases/download/v4.14.1/code-server_4.14.1_amd64.deb
-RUN dpkg -i code-server_4.14.1_amd64.deb
-RUN printf "#!/bin/bash\n/usr/bin/code-server --auth=none --bind-addr=0.0.0.0:8090 --disable-telemetry" > /usr/local/bin/codeserver
-RUN chmod +x /usr/local/bin/codeserver
+##Install code server
+RUN wget https://github.com/coder/code-server/releases/download/v4.18.0/code-server_4.18.0_amd64.deb && \
+    dpkg -i code-server_4.18.0_amd64.deb && \
+    printf "#!/bin/bash\n/usr/bin/code-server --auth=none --bind-addr=0.0.0.0:8090 --disable-telemetry" > /usr/local/bin/codeserver && \
+    chmod +x /usr/local/bin/codeserver
+
 SHELL ["/bin/bash", "-c"]
+
+
+##Install code server extensions
 ENV  XDG_DATA_HOME='/codeserver_installed_extensions'
-RUN mkdir /codeserver_installed_extensions && chmod +x /codeserver_installed_extensions
-RUN \
+RUN mkdir /codeserver_installed_extensions && chmod +x /codeserver_installed_extensions && \
     extensions=(\
         njpwerner.autodocstring@0.6.1 \
        	charliermarsh.ruff\
@@ -56,12 +46,12 @@ RUN \
     # Install the $exts
     && for ext in "${extensions[@]}"; do /usr/bin/code-server --install-extension "${ext}"; done
 
-#install HF as above does not work
-RUN /usr/bin/code-server --install-extension codeserver_extensions/ HuggingFace.huggingface-vscode-0.0.30.vsix
-RUN ls -lah /codeserver_installed_extensions
+#install Phind Extension from vsix
+RUN /usr/bin/code-server --install-extension codeserver_extensions/phind.phind-0.16.0.vsix && \
+    ls -lah /codeserver_installed_extensions
 
 
-#Miniconda install
+## Miniconda install
 #ENV CONDA_DIR /opt/conda
 RUN curl -k https://repo.anaconda.com/miniconda/Miniconda3-py39_22.11.1-1-Linux-x86_64.sh --output miniconda.sh && \ 
     ls -lah  && \
@@ -77,9 +67,9 @@ RUN curl -k https://repo.anaconda.com/miniconda/Miniconda3-py39_22.11.1-1-Linux-
     conda init
 #RUN conda update conda
 ENV PATH /opt/conda/bin:$PATH
-RUN conda --version
-RUN conda install mamba -c conda-forge
-RUN conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
+RUN conda --version && \
+    conda install mamba -c conda-forge && \
+    conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
 
 #RUN pip install --upgrade pip
 #RUN pip install  -r requirements.txt

@@ -32,7 +32,7 @@ Scratchpad for studying and exploration
         
 
 
-### MINIKUBE (remove later)
+### MINIKUBE (WIP)
 - Run a fastapi service on [minikube](https://minikube.sigs.k8s.io/docs/start/).Note that its independent from scratchpad container
     - Install it from [here](https://minikube.sigs.k8s.io/docs/start/)
     - Navigate to folder `you@yourmachine:~/somefolder/scratchpad/svcs/fastapi_kube_only/` and run below commands (run below different terminals and in sequence)

@@ -17,7 +17,10 @@ format:
 	@echo "Formatting Python code..."
 	pip3 install black
 	pip3 install isort
-	black .  && autopep8 --in-place --recursive . && flake8 src tests"
+	black src
+	isort src
+#   black .  && autopep8 --in-place --recursive . && flake8 src tests"
+
 #	#@black $(PYTHON_FILES)
 #	@isort $(PYTHON_FILES)
 	@echo "Done!"

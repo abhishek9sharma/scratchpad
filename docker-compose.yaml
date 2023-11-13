@@ -12,7 +12,51 @@ services:
       - "8265:8265"
       - "8090:8090"
       - "8100:8100"
+      - "6379:6379"    
+    volumes:
+      - ./notebooks:/scratchpad/notebooks
+      - ./src:/scratchpad/src
+      - ./svcs:/scratchpad/svcs
+      - ./data:/scratchpad/data
+      - ./codeserver_extensions:/scratchpad/codeserver_extensions
+      - ./installers:/scratchpad/installers
+      - ./ghmount:/scratchpad/ghmount
+      # - ./data/conda_envs/envs:/opt/conda/envs
+      # - ./data/conda_envs/pkgs:/opt/conda/pkgs    
     restart: "no"
+    # entrypoint:
+    #  - bash
+    # command:
+    #   - -c
+    #   - |
+    #     jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token='' --NotebookApp.password='' -y       
+    deploy:
+      resources:
+        # limits:
+        #   nvidia.com/gpu: "0.5" # requesting 1 GPU
+        reservations:
+            devices:
+              - driver: nvidia
+                capabilities: [gpu]
+                #count: 1       
+  worker_node:
+    build: 
+      context: .
+      dockerfile: Dockerfile_worker_node
+    user: root
+    #container_name: worker_node
+    restart: "no"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "2"
+          memory: "1G"
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+              #count: 1
     volumes:
       - ./notebooks:/scratchpad/notebooks
       - ./src:/scratchpad/src
@@ -23,17 +67,3 @@ services:
       - ./ghmount:/scratchpad/ghmount
       # - ./data/conda_envs/envs:/opt/conda/envs
       # - ./data/conda_envs/pkgs:/opt/conda/pkgs
-
-    # entrypoint:
-    #  - bash
-    # command:
-    #   - -c
-    #   - |
-    #     jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token='' --NotebookApp.password='' -y       
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
