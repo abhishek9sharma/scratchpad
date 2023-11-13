@@ -8,7 +8,10 @@ Scratchpad for studying and exploration
         - if docker image is not build : `you@yourmachine:~/somefolder/scratchpad$ make up_with_build`
         - if image is already build : `you@yourmachine:~/somefolder/scratchpad$ make up`
         - when the container is up you can view the code/notebooks from below links
-            - [JupyterLab](https://jupyter.org/install): [http://localhost:9001/lab](http://localhost:9001/lab)
+            - [JupyterLab](https://jupyter.org/install): 
+                - [http://localhost:9001/lab](http://localhost:9001/lab)
+                - [http://localhost:9002/lab](http://localhost:9002/lab) (this is another container which can be used as a part of ray cluster)
+                - [http://localhost:9003/lab](http://localhost:9003/lab) (this is another container which can be used as a part of ray cluster)
             - [CodeServer](https://github.com/coder/code-server): [http://localhost:8090/?folder=/scratchpad](http://localhost:8090/?folder=/scratchpad)
 
     - To bring down a running _scratchpad_ container run below command 
@@ -22,14 +25,11 @@ Scratchpad for studying and exploration
         - Navigate to location [http://localhost:8090/?folder=/scratchpad](http://localhost:8090/?folder=/scratchpad)
         - Open Teminal and run below command
             - `root@22e5c9a5f35d:/scratchpad#chmod +x ./installers/install_tgi.sh && source ./installers/install_tgi`
-        
-
 
     - Install ray environment once container starts
         - Navigate to folder [http://localhost:8090/?folder=/scratchpad](http://localhost:8090/?folder=/scratchpad)
         - Open Teminal and run below command
-            - `root@22e5c9a5f35d:/scratchpad#chmod +x ./installers/create_ray_env.sh && source ./installers/create_ray_env.sh`
-        
+            - `root@22e5c9a5f35d:/scratchpad#chmod +x ./installers/create_ray_env.sh && source ./installers/create_ray_env.sh`        
 
 
 ### MINIKUBE (WIP)

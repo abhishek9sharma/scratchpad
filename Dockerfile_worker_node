@@ -23,4 +23,9 @@ RUN conda --version && \
     conda install mamba -c conda-forge && \
     conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
 RUN conda config --prepend envs_dirs /scratchpad/data/conda_envs
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+RUN pip install --upgrade pip
+COPY requirements.txt /scratchpad/requirements.txt
+RUN pip install  -r /scratchpad/requirements.txt
+
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]

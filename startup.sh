@@ -5,7 +5,7 @@ mkdir -p /scratchpad/data/conda_envs
 #mkdir -p /scratchpad/data/conda_envs/pkgs
 
 conda config --prepend envs_dirs /scratchpad/data/conda_envs
-
-#jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token='' --NotebookApp.password='' -y & jupnb=$!
+chmod +x /scratchpad/installers/create_ray_env.sh && source /scratchpad/installers/create_ray_env.sh
+jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token='' --NotebookApp.password='' -y & jupnb=$!
 /usr/local/bin/codeserver & code=$!
-wait $code #$jupnb
+wait $code $jupnb
