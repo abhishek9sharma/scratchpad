@@ -72,8 +72,8 @@ RUN conda --version && \
     conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
 
 RUN pip install --upgrade pip
-COPY requirements.txt /scratchpadrequirements.txt
-RUN pip install  -r requirements.txt
+COPY requirements.txt /scratchpad/requirements.txt
+RUN pip install  -r /scratchpad/requirements.txt
 
 # #install tgi
 # RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
