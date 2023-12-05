@@ -5,6 +5,10 @@ services:
     build: .
     user: root
     container_name: scratchpad
+    # depends_on:
+    #   - hdfs
+    # links:
+    #  - hdfs
     #privileged: true
     ports:
       - "9001:8888"
@@ -48,6 +52,9 @@ services:
       - "9002:8888"
     depends_on:
       - scratchpad
+      #- hdfs
+    # links:
+    #  - hdfs
     #container_name: worker_node
     restart: "no"
     deploy:
@@ -77,6 +84,9 @@ services:
     pull_policy: never
     depends_on:
       - worker_node_a
+      #- hdfs
+    # links:
+    #  - hdfs
     user: root
     ports:
       - "9003:8888"      
@@ -87,7 +97,7 @@ services:
       resources:
         limits:
           cpus: "2"
-          memory: "1G"
+          memory: "2G"
         reservations:
           devices:
             - driver: nvidia
@@ -103,5 +113,22 @@ services:
       - ./ghmount:/scratchpad/ghmount
       # - ./data/conda_envs/envs:/opt/conda/envs
       # - ./data/conda_envs/pkgs:/opt/conda/pkgs
-
-#docker buildx build -f Dockerfile_worker_node -t worker_node .
+#   hdfs:
+#    image: flokkr/hadoop:latest
+#    hostname: localab9hdfs
+#    ports:
+#      - 9870:9870
+#   #  env_file:
+#   #    - ./config
+#    environment:
+#      ENSURE_NAMENODE_DIR: "/tmp/hadoop-hadoop/dfs/name"
+#      SLEEP_SECONDS: 20
+#    command: ["hdfs", "localab9hdfs"]
+#   # hdfs:
+#   #   image: flokkr/hadoop:latest
+#   #   container_name: my-hdfs-container
+#   #   ports:
+#   #     - "50070:50070"  # Web UI for HDFS
+#   #     - "8020:8020"    # Hadoop IPC
+#   #     - "9004:9000"    # Hadoop Distributed File System (HDFS)
+# #docker buildx build -f Dockerfile_worker_node -t worker_node .
