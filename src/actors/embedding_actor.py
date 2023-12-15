@@ -9,7 +9,8 @@ class EmbeddingActor:
         
     def get_embeddings(self, text_batch):
         #return len(text_batch)
-        return self.transformer.encode(text_batch)
+        #return self.transformer.encode(text_batch).tolist()
+        return [len(x) for x in text_batch]
 
 # @ray.remote(num_gpus=0.2, num_cpus=1)
 # class Embed:
